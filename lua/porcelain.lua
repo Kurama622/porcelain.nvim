@@ -9,9 +9,8 @@ end
 function porcelain.load()
   g.colors_name = 'porcelain'
 
-  -- orange    #cb4b16
-  -- violet    #6c71c4
   local colors = {
+    bg = '#131824',
     base04 = '#00202b',
     base03 = '#002131',
     -- base03 = '#002b36',
@@ -43,8 +42,8 @@ function porcelain.load()
   }
 
   -- General editor highlights
-  shl('Normal', { fg = colors.fg, bg = colors.base03 })
-  shl('EndOfBuffer', { fg = colors.base03 })
+  shl('Normal', { fg = colors.fg, bg = colors.bg })
+  shl('EndOfBuffer', { fg = colors.bg })
   shl('CursorLine', { bg = colors.base02 })
   shl('CursorLineNr', { fg = colors.base1, bg = colors.base02 })
   shl('LineNr', { fg = colors.base01 })
@@ -62,11 +61,11 @@ function porcelain.load()
   shl('Operator', { fg = colors.base0 })
   shl('Underlined', { fg = colors.violet, underline = true })
   shl('Todo', { fg = colors.magenta, bold = true })
-  shl('Error', { fg = colors.red, bg = colors.base03, bold = true })
+  shl('Error', { fg = colors.red, bg = colors.bg, bold = true })
   shl('WarningMsg', { fg = colors.orange })
-  shl('IncSearch', { fg = colors.base03, bg = colors.orange })
-  shl('Search', { fg = colors.base03, bg = colors.yellow })
-  shl('Visual', { fg = colors.base01, bg = colors.base03, reverse = true })
+  shl('IncSearch', { fg = colors.bg, bg = colors.orange })
+  shl('Search', { fg = colors.bg, bg = colors.yellow })
+  shl('Visual', { fg = colors.base01, bg = colors.bg, reverse = true })
   shl('Pmenu', { fg = colors.base0, bg = colors.base04 })
   shl('PmenuMatch', { fg = colors.cyan, bg = colors.base04, bold = true })
   shl('PmenuMatchSel', { fg = colors.cyan, bg = colors.base00, bold = true })

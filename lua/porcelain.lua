@@ -1,285 +1,161 @@
-local api, opt, g = vim.api, vim.opt, vim.g
-local flip = {}
+local api, g = vim.api, vim.g
 
-local function flipped()
-  return {
-    --comment
-    base01 = '#6e7171',
-    base02 = '#363646',
-    base03 = '#45465e',
-    base04 = '#7C81A4',
-    base05 = '#151626',
-    base06 = '#16161D',
-    --bakcground
-    --暗蓝紫
-    bg = '#131824',
-    --
-    --莓红
-    red = '#c45a65',
-    dred = '#ed556a',
-    --blue
-    qblue = '#4491d4',
-    --晴蓝
-    blue = '#7788d4',
-    --y远山蓝
-    yslan = '#8fb2c9',
-    --
-    applegreen = '#90a650',
-    -- for sign
-    wzgreen = '#69a794',
-    green = '#509987',
-    --
-    --海螺橙
-    orange = '#f0945d',
-    --沙石黄#e5b751
-    yellow = '#e0af68',
-    --
-    voilet = '#bc84a8',
-    yjvoilet = '#525288',
-    dpvoilet = '#957FB8',
-    danlanzi = '#a7a8bd',
-    --
-    aqua = '#55a6bd',
-    --
-    manaohui = '#ccc9c6',
-    ---
-    notify_red = '#BE3455',
-    notify_yellow = '#f4bc34',
-    notify_blue = '#1C95FC',
-    notify_aqua = '#46D9F2',
-    bluelnum = '#294161',
-    non = 'NONE',
-  }
+local porcelain = {}
+
+local function shl(group, properties)
+  api.nvim_set_hl(0, group, properties)
 end
 
-function flip.load()
-  local f = flipped()
+function porcelain.load()
+  g.colors_name = 'porcelain'
 
-  local groups = {
-    --Neovim Relate
-    Normal = { fg = f.manaohui, bg = f.bg },
-    --signcolumn
-    SignColumn = { bg = f.bg },
-    --buffer
-    LineNr = { fg = f.bluelnum },
-    EndOfBuffer = { bg = f.non, fg = f.bg },
-    Search = { bg = f.base04, fg = f.base06 },
-    Visual = { bg = f.base03 },
-    ColorColumn = { bg = f.base06 },
-    Whitespace = { fg = f.base02 },
-    --window
-    VertSplit = { fg = f.base02 },
-    Title = { fg = f.yellow },
-    --cursorline
-    Cursorline = { bg = f.base02 },
-    CursorLineNr = { fg = f.qblue },
-    --pmenu
-    Pmenu = { bg = f.base03, fg = f.manaohui },
-    PmenuSel = { bg = f.yellow, fg = f.base06 },
-    PmenuThumb = { bg = f.base02 },
-    PmenuKind = { bg = f.base03, fg = f.blue },
-    PmenuKindSel = { link = 'PmenuSel' },
-    PmenuExtra = { link = 'Pmenu' },
-    PmenuExtraSel = { link = 'PmenuSel' },
-    WildMenu = { link = 'pmenu' },
-    --statusline
-    StatusLine = { bg = f.base05 },
-    StatusLineNC = { fg = f.base05, bg = f.base05 },
-    WinBar = { bg = f.non },
-    WinBarNC = { bg = f.non },
-    --Error
-    ErrorMsg = { fg = f.notify_red },
-    --Markup
-    TODO = { bg = f.blue, fg = f.base02 },
-    Conceal = { fg = f.green },
-    Error = { fg = f.notify_red },
-    NonText = { link = 'Comment' },
-    --Float
-    FloatBorder = { fg = f.blue },
-    FloatNormal = { link = 'Normal' },
-    FloatShadow = { bg = f.base06 },
-    --Fold
-    Folded = { fg = f.yjvoilet },
-    FoldColumn = { link = 'SignColumn' },
-    --Spell
-    SpellBad = { fg = f.notify_red },
-    SpellCap = { undercurl = true, sp = f.notify_blue },
-    SpellRare = { undercurl = true, sp = f.voilet },
-    SpellLocal = { undercurl = true, sp = f.notify_aqua },
-    --Msg
-    WarningMsg = { fg = f.notify_red },
-    MoreMsg = { fg = f.green },
-    --Internal
-    NvimInternalError = { fg = f.notify_red },
-    Directory = { fg = f.blue },
-    --------------------------------------------------------
-    ---@Langauge Relate
-    ---@Identifier
-    Identifier = { fg = f.yslan },
-    -- various variable names
-    ['@variable'] = { fg = f.yslan },
-    --built-in variable names (e.g. `this`)
-    ['@variable.builtin'] = { fg = f.red },
-    Constant = { fg = f.orange },
-    ['@constant.builtin'] = { link = 'Constant' },
-    -- constants defined by the preprocessor
-    ['@constant.macro'] = {},
-    --modules or namespaces
-    ['@namespace'] = { link = 'Include' },
-    --symbols or atoms
-    -- ['@symbol'] = {},
-    --------------------------------------------------------
-    ---@Types
-    Type = { fg = f.blue },
-    ['@type.builtin'] = { link = 'Type' },
-    --type definitions (e.g. `typedef` in C)
-    ['@type.definition'] = { link = 'Type' },
-    --type qualifiers (e.g. `const`)
-    ['@type.qualifier'] = { fg = f.voilet, italic = true },
-    --modifiers that affect storage in memory or life-time like C `static`
-    ['@storageclass'] = { fg = f.voilet },
-    ['@field'] = { fg = f.wzgreen },
-    ['@property'] = { fg = f.wzgreen },
-    --------------------------------------------------------
-    ---@Keywords
-    Keyword = { fg = f.voilet },
-    ['@keyword.function'] = { link = 'Keyword' },
-    ['@keyword.return'] = { fg = f.voilet, italic = true },
-    ['@keyword.operator'] = { link = 'Operator' },
-    --if else
-    Conditional = { fg = f.dpvoilet },
-    --for while
-    Repeat = { link = 'Conditional' },
-    Debug = { fg = f.red },
-    Label = { fg = f.voilet },
-    PreProc = { fg = f.dpvoilet },
-    Include = { link = 'PreProc' },
-    Exception = { fg = f.voilet },
-    Statement = { fg = f.voilet },
-    Special = { fg = f.yellow },
-    --------------------------------------------------------
-    ---@Functions
-    Function = { fg = f.yellow },
-    --built-in functions
-    ['@function.builtin'] = { fg = f.qblue },
-    --function calls
-    ['@function.call'] = { link = 'Function' },
-    --preprocessor macros
-    ['@function.macro'] = { link = 'Function' },
-    ['@method'] = { link = 'Function' },
-    ['@method.call'] = { link = 'Function' },
-    ['@constructor'] = { fg = f.wzgreen },
-    ['@parameter'] = { fg = f.aqua },
-    --------------------------------------------------------
-    ---@Literals
-    String = { fg = f.applegreen },
-    Number = { fg = f.orange },
-    Boolean = { fg = f.orange },
-    Float = { link = 'Number' },
-    --
-    Define = { link = 'PreProc' },
-    Operator = { fg = f.red },
-    Comment = { fg = f.base01 },
-    --------------------------------------------------------
-    ---@punctuation
-    ['@punctuation.bracket'] = { fg = '#7397ab' },
-    ['@punctuation.delimiter'] = { fg = '#7397ab' },
-    --------------------------------------------------------
-    ---@Tag
-    ['@tag.html'] = { fg = f.orange },
-    ['@tag.attribute.html'] = { link = '@property' },
-    ['@tag.delimiter.html'] = { link = '@punctuation.delimiter' },
-    ['@tag.javascript'] = { link = '@tag.html' },
-    ['@tag.attribute.javascript'] = { link = '@tag.attribute.html' },
-    ['@tag.delimiter.javascript'] = { link = '@tag.delimiter.html' },
-    ['@tag.typescript'] = { link = '@tag.html' },
-    ['@tag.attribute.typescript'] = { link = '@tag.attribute.html' },
-    ['@tag.delimiter.typescript'] = { link = '@tag.delimiter.html' },
-    --------------------------------------------------------
-    --------------------------------------------------------
-    ---@Markdown
-    ['@text.reference.markdown_inline'] = { fg = f.blue },
-    ---@Diff
-    DiffAdd = { fg = f.green },
-    DiffChange = { fg = f.blue },
-    DiffDelete = { fg = f.red },
-    DiffText = { fg = f.red, bold = true },
-    diffAdded = { fg = f.green },
-    diffRemoved = { fg = f.red },
-    diffChanged = { fg = f.blue },
-    diffOldFile = { fg = f.yellow },
-    diffNewFile = { fg = f.orange },
-    diffFile = { fg = f.cyan },
-    --------------------------------------------------------
-    ---@Diagnostic
-    DiagnosticError = { link = 'Error' },
-    DiagnosticWarn = { fg = f.notify_yellow },
-    DiagnosticInfo = { fg = f.notify_blue },
-    DiagnosticHint = { fg = f.notify_aqua },
-    DiagnosticSignError = { link = 'DiagnosticError' },
-    DiagnosticSignWarn = { link = 'DiagnosticWarn' },
-    DiagnosticSignInfo = { link = 'DiagnosticInfo' },
-    DiagnosticSignHint = { link = 'DiagnosticHint' },
-    DiagnosticUnderlineError = { undercurl = true, sp = f.notify_red },
-    DiagnosticUnderlineWarn = { undercurl = true, sp = f.notify_yellow },
-    DiagnosticUnderlineInfo = { undercurl = true, sp = f.notify_blue },
-    DiagnosticUnderlineHint = { undercurl = true, sp = f.notify_aqua },
-    ---@plugin
-    GitGutterAdd = { fg = f.green },
-    GitGutterChange = { fg = f.blue },
-    GitGutterDelete = { fg = f.notify_red },
-    GitGutterChangeDelete = { fg = f.notify_red },
-    --dashboard
-    DashboardHeader = { fg = f.dpvoilet },
-    DashboardFooter = { link = 'Comment' },
-    DashboardProjectTitle = { fg = f.qblue, bold = true },
-    DashboardProjectTitleIcon = { fg = f.danlanzi },
-    DashboardProjectIcon = { fg = f.blue },
-    DashboardMruTitle = { link = 'DashboardProjectTitle' },
-    DashboardMruIcon = { link = 'DashboardProjectTitleIcon' },
-    DashboardFiles = { fg = f.base04 },
-    DashboardShortCut = { link = 'Comment' },
-    DashboardShortCutIcon = { link = '@field' },
-    --cmp
-    CmpItemAbbr = { fg = f.manaohui },
-    CmpItemAbbrMatch = { fg = f.green },
-    CmpItemKind = { fg = f.blue },
-    --Telescope
-    TelescopePromptBorder = { bg = f.base06, fg = f.base06 },
-    TelescopePromptNormal = { bg = f.base06, fg = f.dred },
-    TelescopeResultsBorder = { bg = f.base06, fg = f.base06 },
-    TelescopeResultsNormal = { fg = f.base04 },
-    TelescopePreviewBorder = { bg = f.base06, fg = f.base06 },
-    TelescopeSelectionCaret = { fg = f.yellow },
-    TelescopeMatching = { fg = f.green },
-    --CursorWord
-    CursorWord = { bg = f.base02 },
+  -- orange    #cb4b16
+  -- violet    #6c71c4
+  local colors = {
+    base04 = '#00202b',
+    base03 = '#002131',
+    -- base03 = '#002b36',
+    -- base03 = '#002937',
+    base02 = '#073642',
+    base01 = '#586e75',
+    base00 = '#657b83',
+    base0 = '#839496',
+    base1 = '#93a1a1',
+    base2 = '#eee8d5',
+    base3 = '#fdf6e3',
+    yellow = '#b58900',
+    orange = '#b86114',
+    red = '#d75f5f',
+    violet = '#887ec8',
+    blue = '#268bd2',
+    cyan = '#2aa198',
+    green = '#84a800',
+    magenta = '#d33682',
+    dfred = '#ffdce0',
+    dbred = '#3f1f1f',
+    dfgreen = '#adf1c2',
+    dbgreen = '#003b00',
+    dfyellow = '#f8e3a1',
+    dbyellow = '#4b3c06',
+    dfcyan = '#9ecbff',
+    -- Custom modifications
+    fg = '#b6b6b6', -- Brighter foreground
   }
 
-  g.terminal_color_0 = f.bg
-  g.terminal_color_1 = f.red
-  g.terminal_color_2 = f.applegreen
-  g.terminal_color_3 = f.yellow
-  g.terminal_color_4 = f.blue
-  g.terminal_color_5 = f.violet
-  g.terminal_color_6 = f.aqua
-  g.terminal_color_7 = f.base06
-  g.terminal_color_8 = f.base05
-  g.terminal_color_9 = f.notify_red
-  g.terminal_color_10 = f.green
-  g.terminal_color_11 = f.notify_yellow
-  g.terminal_color_12 = f.notify_blue
-  g.terminal_color_13 = f.violet
-  g.terminal_color_14 = f.notify_aqua
-  g.terminal_color_15 = f.manaohui
+  -- General editor highlights
+  shl('Normal', { fg = colors.fg, bg = colors.base03 })
+  shl('EndOfBuffer', { fg = colors.base03 })
+  shl('CursorLine', { bg = colors.base02 })
+  shl('CursorLineNr', { fg = colors.base1, bg = colors.base02 })
+  shl('LineNr', { fg = colors.base01 })
+  shl('Comment', { fg = colors.base01, italic = true })
+  shl('String', { fg = colors.cyan })
+  shl('Function', { fg = colors.blue })
+  shl('Keyword', { fg = colors.green, bold = true })
+  shl('Constant', { fg = colors.violet })
+  shl('Identifier', { fg = colors.blue })
+  shl('Statement', { fg = colors.green })
+  shl('Number', { link = 'Constant' })
+  shl('PreProc', { fg = colors.orange })
+  shl('Type', { fg = colors.yellow })
+  shl('Special', { fg = colors.orange })
+  shl('Operator', { fg = colors.base0 })
+  shl('Underlined', { fg = colors.violet, underline = true })
+  shl('Todo', { fg = colors.magenta, bold = true })
+  shl('Error', { fg = colors.red, bg = colors.base03, bold = true })
+  shl('WarningMsg', { fg = colors.orange })
+  shl('IncSearch', { fg = colors.base03, bg = colors.orange })
+  shl('Search', { fg = colors.base03, bg = colors.yellow })
+  shl('Visual', { fg = colors.base01, bg = colors.base03, reverse = true })
+  shl('Pmenu', { fg = colors.base0, bg = colors.base04 })
+  shl('PmenuMatch', { fg = colors.cyan, bg = colors.base04, bold = true })
+  shl('PmenuMatchSel', { fg = colors.cyan, bg = colors.base00, bold = true })
+  shl('PmenuSel', { fg = colors.base3, bg = colors.base00 })
+  shl('PmenuSbar', { bg = colors.base1 })
+  shl('PmenuThumb', { bg = colors.base01 })
+  shl('MatchParen', { bg = colors.base02 })
+  shl('WinBar', { bg = colors.base02 })
+  shl('NormalFloat', { bg = colors.base04 })
+  shl('FloatBorder', { fg = colors.blue })
+  shl('Title', { fg = colors.yellow })
+  shl('WinSeparator', { fg = colors.base00 })
+  shl('StatusLine', { bg = colors.base1, fg = colors.base02 })
+  shl('StatusLineNC', { bg = colors.base00, fg = colors.base02 })
+  shl('ModeMsg', { fg = colors.cyan })
+  shl('ColorColumn', { bg = colors.base02 })
+  shl('Title', { fg = colors.orange })
+  shl('WildMenu', { fg = colors.base2, bg = colors.base02, reverse = true })
+  shl('Folded', { bg = colors.base04, fg = colors.base0 })
+  shl('ErrorMsg', { fg = colors.red })
+  shl('ComplMatchIns', { fg = colors.base01 })
+  shl('Directory', { fg = colors.cyan })
+  shl('QuickFixLine', { bold = true })
+  shl('qfFileName', { fg = colors.blue })
+  shl('qfSeparator', { fg = colors.base01 })
+  shl('qfLineNr', { link = 'LineNr' })
+  shl('qfText', { link = 'Normal' })
 
-  api.nvim_command('hi clear')
-  opt.background = 'dark'
-  opt.termguicolors = true
-  vim.g.colors_name = 'porcelain'
-  for group, conf in pairs(groups) do
-    api.nvim_set_hl(0, group, conf)
-  end
+  -- Treesitter highlights
+  shl('@function', { fg = colors.blue })
+  shl('@function.builtin', { fg = colors.blue })
+  shl('@variable', { fg = colors.fg })
+  shl('@variable.builtin', { fg = colors.fg })
+  shl('@keyword', { fg = colors.green })
+  shl('@keyword.import', { link = 'PreProc' })
+  shl('@string', { fg = colors.cyan })
+  shl('@string.escape', { fg = colors.cyan })
+  shl('@string.regexp', { fg = colors.cyan })
+  shl('@comment', { fg = colors.base01, italic = true })
+  shl('@type', { fg = colors.yellow })
+  shl('@type.builtin', { link = '@type' })
+  shl('@constant', { link = 'Constant' })
+  shl('@constant.builtin', { link = 'Constant' })
+  shl('@constant.macro', { link = 'Constant' })
+  shl('@constructor', { link = 'Function' })
+  shl('@parameter', { fg = colors.base0 })
+  shl('@class', { fg = colors.yellow })
+  shl('@method', { fg = colors.blue })
+  shl('@property', { link = '@variable' })
+  -- shl('@field', { fg = colors.base0 })
+  shl('@interface', { fg = colors.yellow })
+  shl('@namespace', { fg = colors.base0 })
+  shl('@punctuation', { fg = colors.base0 })
+  shl('@operator', { link = 'Operator' })
+  shl('@attribute', { fg = colors.yellow })
+  shl('@boolean', { link = 'Constant' })
+  shl('@number', { link = 'Number' })
+  shl('@tag', { fg = colors.green })
+  shl('@tag.attribute', { fg = colors.base0 })
+  shl('@tag.delimiter', { fg = colors.base0 })
+
+  -- Diagnostics
+  shl('DiagnosticError', { fg = colors.red })
+  shl('DiagnosticWarn', { fg = colors.yellow })
+  shl('DiagnosticInfo', { fg = colors.blue })
+  shl('DiagnosticHint', { fg = colors.cyan })
+  shl('DiagnosticUnderlineError', { undercurl = true, sp = colors.red })
+  shl('DiagnosticUnderlineWarn', { undercurl = true, sp = colors.yellow })
+  shl('DiagnosticUnderlineInfo', { undercurl = true, sp = colors.blue })
+  shl('DiagnosticUnderlineHint', { undercurl = true, sp = colors.cyan })
+
+  -- LSP
+  shl('LspReferenceText', { bg = colors.base02 })
+  shl('LspReferenceRead', { bg = colors.base02 })
+  shl('LspReferenceWrite', { bg = colors.base02 })
+
+  -- Indentmini
+  shl('IndentLine', { link = 'Comment' })
+  shl('IndentLineCurrent', { fg = '#084352' })
+
+  shl('DashboardHeader', { fg = colors.green })
+  shl('ModeLineMode', { bold = true })
+  shl('ModeLinefileinfo', { bold = true })
+
+  -- Diff
+  shl('DiffAdd', { fg = colors.dfgreen, bg = colors.dbgreen }) --
+  shl('DiffDelete', { fg = colors.dfred, bg = colors.dbred })
+  shl('DiffChange', { fg = colors.dfyellow, bg = colors.dbyellow })
+  shl('DiffText', { fg = colors.dfcyan, bg = colors.dbyellow, bold = true })
 end
 
-return flip
+return porcelain

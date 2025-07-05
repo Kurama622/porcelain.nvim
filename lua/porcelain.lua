@@ -8,50 +8,51 @@ end
 
 function porcelain.load()
   g.colors_name = 'porcelain'
-
   local colors = {
     bg = '#131824',
     base04 = '#00202b',
-    base03 = '#002131',
-    -- base03 = '#002b36',
-    -- base03 = '#002937',
-    base02 = '#073642',
-    base01 = '#586e75',
+    base03 = '#45465e',
+    base02 = '#363646',
+    base01 = '#6e7171',
     base00 = '#657b83',
     base0 = '#839496',
     base1 = '#93a1a1',
     base2 = '#eee8d5',
     base3 = '#fdf6e3',
-    yellow = '#b58900',
-    orange = '#b86114',
+    yellow = '#e0af68',
+    orange = '#ff9e64',
     red = '#d75f5f',
-    violet = '#887ec8',
+    purple = '#887ec8',
     blue = '#268bd2',
     cyan = '#2aa198',
     green = '#84a800',
-    magenta = '#d33682',
+    green01 = '#104410',
+    magenta = '#bb9af7',
+    violet = '#bc84a8',
     dfred = '#ffdce0',
-    dbred = '#3f1f1f',
-    dfgreen = '#adf1c2',
-    dbgreen = '#003b00',
-    dfyellow = '#f8e3a1',
-    dbyellow = '#4b3c06',
-    dfcyan = '#9ecbff',
+    dbred01 = '#3f1f1f',
+    dbred02 = '#914c54',
+    dbred03 = '#713c44',
+    dfgreen = '#90a650',
+    dbgreen01 = '#003b00',
+    dbgreen02 = '#449dab',
+    qblue = '#4491d4',
+    aqua = '#75b6cd',
     -- Custom modifications
-    fg = '#b6b6b6', -- Brighter foreground
+    fg = '#a4a0a1',
   }
 
   -- General editor highlights
   shl('Normal', { fg = colors.fg, bg = colors.bg })
   shl('EndOfBuffer', { fg = colors.bg })
   shl('CursorLine', { bg = colors.base02 })
-  shl('CursorLineNr', { fg = colors.base1, bg = colors.base02 })
+  shl('CursorLineNr', { fg = colors.qblue })
   shl('LineNr', { fg = colors.base01 })
   shl('Comment', { fg = colors.base01, italic = true })
   shl('String', { fg = colors.cyan })
   shl('Function', { fg = colors.blue })
   shl('Keyword', { fg = colors.green, bold = true })
-  shl('Constant', { fg = colors.violet })
+  shl('Constant', { fg = colors.purple })
   shl('Identifier', { fg = colors.blue })
   shl('Statement', { fg = colors.green })
   shl('Number', { link = 'Constant' })
@@ -65,7 +66,7 @@ function porcelain.load()
   shl('WarningMsg', { fg = colors.orange })
   shl('IncSearch', { fg = colors.bg, bg = colors.orange })
   shl('Search', { fg = colors.bg, bg = colors.yellow })
-  shl('Visual', { fg = colors.base01, bg = colors.bg, reverse = true })
+  shl('Visual', { bg = colors.base03 })
   shl('Pmenu', { fg = colors.base0, bg = colors.base04 })
   shl('PmenuMatch', { fg = colors.cyan, bg = colors.base04, bold = true })
   shl('PmenuMatchSel', { fg = colors.cyan, bg = colors.base00, bold = true })
@@ -151,10 +152,11 @@ function porcelain.load()
   shl('ModeLinefileinfo', { bold = true })
 
   -- Diff
-  shl('DiffAdd', { fg = colors.dfgreen, bg = colors.dbgreen }) --
-  shl('DiffDelete', { fg = colors.dfred, bg = colors.dbred })
-  shl('DiffChange', { fg = colors.dfyellow, bg = colors.dbyellow })
-  shl('DiffText', { fg = colors.dfcyan, bg = colors.dbyellow, bold = true })
+  shl('DiffAdd', { bg = colors.dbgreen01 })
+  shl('DiffDelete', { bg = colors.dbred01 })
+  shl('DiffChange', { bg = colors.dbred01 })
+  shl('DiffText', { bg = colors.dbred02, bold = true })
+  shl('DiffText', { bold = true, reverse = true })
 end
 
 return porcelain

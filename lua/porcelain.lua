@@ -39,7 +39,7 @@ function porcelain.load()
     qblue = '#4491d4',
     aqua = '#75b6cd',
     -- Custom modifications
-    fg = '#a4a0a1',
+    fg = '#a9a8a8',
   }
 
   -- General editor highlights

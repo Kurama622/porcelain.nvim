@@ -33,6 +33,7 @@ function porcelain.load()
     dbred01 = '#3f1f1f',
     dbred02 = '#914c54',
     dbred03 = '#713c44',
+    dbred04 = '#4f0000',
     dfgreen = '#90a650',
     dbgreen01 = '#003b00',
     dbgreen02 = '#449dab',
@@ -156,7 +157,7 @@ function porcelain.load()
   shl('DiffDelete', { bg = colors.dbred01 })
   shl('DiffChange', { bg = colors.dbred01 })
   shl('DiffText', { bg = colors.dbred02, bold = true })
-  shl('DiffText', { bold = true, reverse = true })
+  shl('DiffText', { bold = true, bg = colors.dbred04 })
 end
 
 return porcelain

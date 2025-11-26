@@ -29,6 +29,8 @@ function porcelain.load()
     green01 = '#104410',
     magenta = '#bb9af7',
     violet = '#bc84a8',
+    dbblue = '#1f223f',
+    dfblue = '#394b7f',
     dfred = '#ffdce0',
     dbred01 = '#3f1f1f',
     dbred02 = '#914c54',
@@ -155,9 +157,8 @@ function porcelain.load()
   -- Diff
   shl('DiffAdd', { bg = colors.dbgreen01 })
   shl('DiffDelete', { bg = colors.dbred01 })
-  shl('DiffChange', { bg = colors.dbred01 })
-  shl('DiffText', { bg = colors.dbred02, bold = true })
-  shl('DiffText', { bold = true, bg = colors.dbred04 })
+  shl('DiffChange', { bg = colors.dbblue })
+  shl('DiffText', { bg = colors.dfblue })
 end
 
 return porcelain

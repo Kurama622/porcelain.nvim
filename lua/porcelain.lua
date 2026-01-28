@@ -48,7 +48,7 @@ function porcelain.load()
   -- General editor highlights
   shl('Normal', { fg = colors.fg, bg = colors.bg })
   shl('EndOfBuffer', { fg = colors.bg })
-  shl('CursorLine', { bg = colors.base02 })
+  shl('CursorLine', { bg = '#29292a' })
   shl('CursorLineNr', { fg = colors.qblue })
   shl('LineNr', { fg = colors.base01 })
   shl('Comment', { fg = colors.base01, italic = true })
